@@ -45,6 +45,11 @@ public class ProtocolParser {
         return nodeToJson(resNode);
     }
 
+    public String parseWrittenJson(String writtenJson) throws JsonProcessingException {
+        JsonNode node = objMapper.readTree(writtenJson);
+        return nodeToJson(node);
+    }
+
     public String prettyPrint(String json) throws JsonProcessingException {
         JsonNode node = jsonToNode(json);
         ObjectWriter objWritter = objMapper.writer();

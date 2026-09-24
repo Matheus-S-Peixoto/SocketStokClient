@@ -8,5 +8,6 @@ public enum Actions {
     S_ADD,
     S_SELL,
     S_LOSS,
+    W_JSON,
     EXIT;
 }

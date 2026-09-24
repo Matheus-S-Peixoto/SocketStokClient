@@ -5,11 +5,15 @@ import org.stok.client.protocol.ProtocolParser;
 import org.stok.client.protocol.request.Request;
 import org.stok.client.ui.UI;
 
+import java.awt.*;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.Scanner;
 
 
 public class ClientMain {
@@ -37,6 +41,15 @@ public class ClientMain {
                 try {
                     Request newRequest = ui.showMenu();
 
+                    if(newRequest.getAction() == Actions.W_JSON) {
+                        String writtenJson = readJsonFromEditor();
+
+                        System.out.println("\nRequest escrito: ");
+                        String parsedJson = parser.parseWrittenJson(writtenJson);
+                        System.out.println(parsedJson);
+
+                        output.println(parsedJson);
+                    }
                     if(newRequest.getAction() == Actions.EXIT) {
                         break;
                     }
@@ -58,10 +71,48 @@ public class ClientMain {
                     System.out.println("\nDigite um número válido!\n");
                 } catch (IllegalArgumentException e) {
                     System.out.println("\n" + e.getMessage() + "\n");
+                } catch (InterruptedException e) {
+
                 }
             }
         } catch (IOException e) {
             System.out.println("Could not connect to server: " + e.getMessage());
+        }
+    }
+
+    public static String readJsonFromEditor()
+            throws IOException, InterruptedException {
+
+        Path tempFile = Files.createTempFile("socketstok-request-", ".json");
+
+        try {
+            String template = """
+            {
+              "action": "",
+              "id": null,
+              "body": {}
+            }
+            """;
+
+            Files.writeString(tempFile, template);
+
+            Process process = new ProcessBuilder(
+                    "vim",
+                    tempFile.toString()
+            )
+                    .inheritIO()
+                    .start();
+
+            int exitCode = process.waitFor();
+
+            if (exitCode != 0) {
+                throw new IOException("Vim exited with code: " + exitCode);
+            }
+
+            return Files.readString(tempFile);
+
+        } finally {
+            Files.deleteIfExists(tempFile);
         }
     }
 }

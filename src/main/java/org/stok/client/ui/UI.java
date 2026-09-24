@@ -26,6 +26,7 @@ public class UI {
         System.out.println("> [6] Adicionar Estoque.");
         System.out.println("> [7] Vender.");
         System.out.println("> [8] Remover do Estoque.");
+        System.out.println("> [9] Escrever Request JSON.");
         System.out.println("> [0] Sair.\n");
 
         System.out.print("Ação Desejada: ");
@@ -44,6 +45,7 @@ public class UI {
             case 6 -> showAdd(newRequest);
             case 7 -> showSell(newRequest);
             case 8 -> showLoss(newRequest);
+            case 9 -> returnWriteJson(newRequest);
             case 0 -> returnExit(newRequest);
             default -> throw new IllegalArgumentException("Opção Inválida");
         };
@@ -205,6 +207,11 @@ public class UI {
 
         req.setBody(reqBody);
         req.setAction(Actions.S_LOSS);
+        return req;
+    }
+
+    private Request returnWriteJson(Request req) {
+        req.setAction(Actions.W_JSON);
         return req;
     }
 
