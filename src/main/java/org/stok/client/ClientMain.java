@@ -10,8 +10,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
-import java.util.InputMismatchException;
-import java.util.Scanner;
+
 
 public class ClientMain {
     private static final UI ui = new UI();
@@ -30,7 +29,7 @@ public class ClientMain {
                 );
                 PrintWriter output = new PrintWriter(
                         socket.getOutputStream(), true
-                );
+                )
         ) {
             System.out.println("Connected to SocketStok Server!");
 
@@ -45,16 +44,21 @@ public class ClientMain {
                     output.println(parser.parseRequest(newRequest));
 
                     String jsonResponse = input.readLine();
+                    if (jsonResponse == null) {
+                        System.out.println("Servidor fechou a conexão.");
+                        break;
+                    }
 
+                    System.out.println("Resposta Crua: ");
                     System.out.println(jsonResponse);
+                    System.out.println("\nResposta com indentação: ");
+                    System.out.println(parser.prettyPrint(jsonResponse));
                 } catch (NumberFormatException e) {
                     System.out.println("\nDigite um número válido!\n");
                 } catch (IllegalArgumentException e) {
                     System.out.println("\n" + e.getMessage() + "\n");
                 }
-
             }
-
         } catch (IOException e) {
             System.out.println("Could not connect to server: " + e.getMessage());
         }

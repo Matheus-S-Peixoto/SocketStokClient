@@ -44,4 +44,11 @@ public class ProtocolParser {
         JsonNode resNode = classToNode(reqObj);
         return nodeToJson(resNode);
     }
+
+    public String prettyPrint(String json) throws JsonProcessingException {
+        JsonNode node = jsonToNode(json);
+        ObjectWriter objWritter = objMapper.writer();
+        objWritter = objWritter.with(SerializationFeature.INDENT_OUTPUT);
+        return objWritter.writeValueAsString(node);
+    }
 }
