@@ -42,7 +42,7 @@ public class ClientMain {
                     Request newRequest = ui.showMenu();
 
                     if(newRequest.getAction() == Actions.W_JSON) {
-                        String writtenJson = readJsonFromEditor();
+                        String writtenJson = readJsonFromVsCode();
 
                         System.out.println("\nRequest escrito: ");
                         String parsedJson = parser.parseWrittenJson(writtenJson);
@@ -71,8 +71,6 @@ public class ClientMain {
                     System.out.println("\nDigite um número válido!\n");
                 } catch (IllegalArgumentException e) {
                     System.out.println("\n" + e.getMessage() + "\n");
-                } catch (InterruptedException e) {
-
                 }
             }
         } catch (IOException e) {
@@ -80,7 +78,7 @@ public class ClientMain {
         }
     }
 
-    public static String readJsonFromEditor()
+    public static String readJsonFromVim()
             throws IOException, InterruptedException {
 
         Path tempFile = Files.createTempFile("socketstok-request-", ".json");
@@ -111,6 +109,43 @@ public class ClientMain {
 
             return Files.readString(tempFile);
 
+        } finally {
+            Files.deleteIfExists(tempFile);
+        }
+    }
+
+    public static String readJsonFromVsCode() throws IOException {
+        Path tempFile = Files.createTempFile("socketstok-request-", ".json");
+
+        try {
+            String template = """
+            {
+              "action": "",
+              "id": null,
+              "body": {}
+            }
+            """;
+
+            Files.writeString(tempFile, template);
+
+            Process process = new ProcessBuilder(
+                    "code",
+                    "--wait",
+                    tempFile.toString()
+            )
+                    .inheritIO()
+                    .start();
+
+            int exitCode = process.waitFor();
+
+            if (exitCode != 0) {
+                throw new IOException("VS Code exited with code: " + exitCode);
+            }
+
+            return Files.readString(tempFile);
+
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
         } finally {
             Files.deleteIfExists(tempFile);
         }

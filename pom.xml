@@ -57,7 +57,7 @@
                                 </transformer>
                             </transformers>
 
-                            <finalName>socketstok-client-vim</finalName>
+                            <finalName>socketstok-client-vscode</finalName>
                         </configuration>
                     </execution>
                 </executions>
