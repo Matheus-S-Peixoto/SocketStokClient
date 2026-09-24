@@ -74,10 +74,16 @@ public class UI {
         System.out.println("===---------+++--------===");
 
         System.out.print("> Digite o nome do novo produto: ");
-        reqBody.setName(scanner.nextLine());
+        String newName = scanner.nextLine();
+        if (!newName.isBlank()) {
+            reqBody.setName(newName);
+        }
 
         System.out.print("> Digite a descrição do novo produto: ");
-        reqBody.setDescription(scanner.nextLine());
+        String newDesc = scanner.nextLine();
+        if (!newDesc.isBlank()) {
+            reqBody.setDescription(newDesc);
+        }
 
         System.out.print("> Digite o preço do novo produto: ");
         reqBody.setAmount(new BigDecimal(scanner.nextLine()));
@@ -102,10 +108,16 @@ public class UI {
         req.setId(Integer.parseInt(scanner.nextLine()));
 
         System.out.print("> Digite o novo nome do produto: ");
-        reqBody.setName(scanner.nextLine());
+        String newName = scanner.nextLine();
+        if (!newName.isBlank()) {
+            reqBody.setName(newName);
+        }
 
         System.out.print("> Digite a nova descrição do produto: ");
-        reqBody.setDescription(scanner.nextLine());
+        String newDesc = scanner.nextLine();
+        if (!newDesc.isBlank()) {
+            reqBody.setDescription(newDesc);
+        }
 
         System.out.print("> Digite o novo preço do produto: ");
         String newAmount = scanner.nextLine();
@@ -114,7 +126,10 @@ public class UI {
         }
 
         System.out.print("> Digite o novo código do produto (15 caracteres): ");
-        reqBody.setCode(scanner.nextLine());
+        String newCode = scanner.nextLine();
+        if (!newCode.isBlank()) {
+            reqBody.setCode(newCode);
+        }
 
         System.out.print("> Digite a nova quantidade em estoque do produto: ");
         String newQuantity = scanner.nextLine();
@@ -189,7 +204,7 @@ public class UI {
         reqBody.setQuantity(Integer.parseInt(scanner.nextLine()));
 
         req.setBody(reqBody);
-        req.setAction(Actions.S_ADD);
+        req.setAction(Actions.S_LOSS);
         return req;
     }
 

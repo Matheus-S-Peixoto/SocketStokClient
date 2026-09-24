@@ -41,7 +41,9 @@ public class ClientMain {
                         break;
                     }
 
-                    output.println(parser.parseRequest(newRequest));
+                    String jsonRequest = parser.parseRequest(newRequest);
+                    System.out.println(jsonRequest);
+                    output.println(jsonRequest);
 
                     String jsonResponse = input.readLine();
                     if (jsonResponse == null) {
@@ -49,7 +51,7 @@ public class ClientMain {
                         break;
                     }
 
-                    System.out.println("Resposta Crua: ");
+                    System.out.println("\nResposta Crua: ");
                     System.out.println(jsonResponse);
                     System.out.println("\nResposta com indentação: ");
                     System.out.println(parser.prettyPrint(jsonResponse));

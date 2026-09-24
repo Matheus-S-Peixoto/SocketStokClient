@@ -1,5 +1,7 @@
 package org.stok.client.protocol.request;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.math.BigDecimal;
 
 public class RequestBody {
@@ -9,6 +11,7 @@ public class RequestBody {
     private String code;
     private Integer quantity;
 
+    @JsonIgnore
     public boolean isEmpty() {
         return (getName() == null) && (getDescription() == null) && (getAmount() == null) && (getCode() == null) && (getQuantity() == null);
     }
