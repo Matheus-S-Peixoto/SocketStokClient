@@ -42,7 +42,6 @@ public class ClientMain {
                     }
 
                     String jsonRequest = parser.parseRequest(newRequest);
-                    System.out.println(jsonRequest);
                     output.println(jsonRequest);
 
                     String jsonResponse = input.readLine();
